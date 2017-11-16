@@ -3,7 +3,6 @@ Server tools for 7 days to die dedicated servers<br>
 
 # Installation
 Go to the releases tab and check for the latest files.<br>
-Or click this link https://github.com/ObsComp/7dtd-ServerTools-master-5.5/releases <br>
 Download and extract the files.<br>
 Copy the Mods folder to the root directory of your server.<br>
 Start the server. The mod will auto create the config file in the game's save directory. Enable each part of the mod you want via ..\your game save directory\ServerTools\ServerToolsConfig.xml<br>
