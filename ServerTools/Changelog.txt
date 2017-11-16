@@ -1,0 +1,233 @@
+﻿v.5.6 in process
+Anticheat - inventory checks...
+Anticheat - player damage...
+Anticheat - teleportation, pve/pvp zone protection, world height...
+Redo donator chat color system to allow them to not be on the admin list...
+Look into block processing to reduce lag...
+Email specific alerts to listed addresses...
+
+v.5.5
+Changed Flight Check detection system to avoid false positives
+Removed teleport to surface in anticheat system for players unless detected while moving
+Improved Entity Underground Check and fixed one bug within it
+Added chat command /admin. Lists all currently in game administrators and moderators based on the server admin list. Can be announced with !admin
+Added chat command /restart. Shows a player when the next auto restart is. Can be announced with !restart
+Added console command tempban, example: tempban 171 15 would ban player with Id 171 for 15 minutes. Limit is 60 minutes
+Added console command restart check to see when the next auto restart is
+Added Player Position Logs. Adds a folder containing files with the player positions. Outputs each player's position every minute into a txt file. Files are separated by days
+Added console commands to reset a player's cooldown on gimme and animal tracking. In console: gimme reset steamId and animaltracking reset steamId
+Added Player Stat Check to automatically watch over player's stats for cheating values. Currently checks for health, stamina, jump, movement speed, player model height,
+skill points available versus player level, and player level
+
+v.5.4
+Tweaked Anticheat detection
+Added vote reward system. Players can receive a reward ingame after voting for your server at https://7daystodie-servers.com
+Added console subcommand to Jail. Use jail list to see the current jailed players
+Added built in admin alert system to anticheat systems
+Fixed admin alert for entities found underground. It will not alert admins about other admins found underground anymore
+
+v.5.3
+Tweaks to Anticheat detection. Improvements around false positives
+Added Special Player Chat Color option. Adding their steamId to the config will allow them to use the special player prefix and color in chat. Separate your id entries with a ,
+Special players can turn their chat color on and off with /spcolor
+Admins can now turn on and off their chat color with /admincolor
+Admins can now be alerted to suspected players stuck underground while they are in game and Entity Underground Check is running
+Fixed Animal Tracking delay timer
+Fixed internal timer systems
+
+v.5.2
+Anticheat Flight Check and Underground Check are improved tremendously. Should have little to no false positives
+Added Kill Player option to Anticheat Checks
+Added Entity Underground Check. This will check if entity such as minibikes, animals, and zombies are underground, then teleport them to the surface
+
+v.5.1
+Added AntiCheat: Underground Check. This will teleport players stuck underground to the surface. Only moving players underground will be detected as flying underground
+Changed AntiCheat: Flight Check. This will teleport players standing still in the air to the surface. Only moving players in the air will be detected as flying
+Changed AnimalTracking to work with EntityId. Place the EntityId in your config. Admins can choose what to spawn this way. Requires server restart for EntityId changes
+
+v.5.0
+Coppis mod is no longer required to use the /trackanimal or /track command
+Added AntiCheat: Flight Check
+Added option in the configuration allowing admins to change chat command symbols from default / and !
+
+v.4.6
+Adjusted Motd to allow it to be shown every respawn or only on entry
+Adjusted Bloodmoon to allow it to be shown every respawn or only on entry
+Added new line in the servertools config just for donator chat coloring
+Added third donator chat color option
+Added enable option to donator chat color due to it currently using the reservedslots list. *Note* You must enable reservedslots to utilize donator colors
+Fixed invalid item checker to look for anyone listed greater in number on the admin list than has been set in the servertools config option
+Invalid items setup example: Setting 4 on the servertools config will check for all admins, mods, and players level 5 and higher for invalid items. Setting 2 would check 
+anyone 3 or higher from the admin list
+Fixed /reserved command and /doncolor giving improper responses when the reservedslots function is turned off
+Set higher defaults for donator levels to avoid conflicts with existing admin tiers
+
+Updates to the colored chat system in future versions are coming
+
+v.4.5
+Added auto restart system. This is technically a shutdown. Performs shutdown with countdown by calling on stopserver command. To restart your server automatically, set it as
+a service in windows OS or make sure your server provider you rent from has an auto restart feature enabled before using this feature. If this is not available to you, you
+will need to manually reboot your server after each shutdown. Setting is default off.
+Servertools can not restart a server automatically because it is only loaded when the server is running
+
+v.4.4
+*REQUIRES COPPIS MOD FOR ANIMAL TRACKING*
+Fixed donator chat color. Admin can change the level and donators can still activate their chat color at will or switch between them
+Fixed /reserved command not working when doncolor was turned off
+Added /trackanimal or /track command. Allows a player to spawn an animal within a radius set by the servertools config. Hostile animals can be turned on as well
+
+v.4.3
+Fixed donator color switch
+Adjusted donator prefix to allow different donator prefix for each tier
+Donator chat color now based on expiration date in reserved list
+Added command /reserved for players to check their reserved list status
+Added command /doncolor for players to enable and change available donator chat colors
+
+v.4.2
+Servertools code now implemented by Obsessive Compulsive after 4.1
+Added two donator tiers for chat coloring. Config allows level, prefix and color changes
+Fixed invalid item checker to look for moderators and donators as well as regular player.
+Fixed @Admins command to not be sent to donators, only moderators and admins
+
+v4.1
+Fixed a NullReferenceException with NewSpawnTele
+
+todo
+make a pvp command
+add permission levels to custom commands
+make a webby
+add a votban/kick
+Detection if people are flying, (clipping if possible). (alert admins only) and/or with automatic kick/ban options.
+If possible somehow for admins to be able to "look" inside an chest without breaking lock!
+
+v4.0
+Added a jail system
+Added console command mute (see ConsoleCommandExamples.txt for usage)
+Added chat command /bloodmoon (only shows how many more days until bloodmoon) can also set it to auto show every x amount of mins with AutoShowBloodmoonDelay to disable set to 0
+Added New spawn tele system (possible for new spawns to be auto teled to a point on the map)
+Added a additional option for a gimme item to show a custom name in the chat (GimmeItems.xml will auto update to the new version when the server is started)
+Moved mute data to Persistent data
+Removed PermissionLevelForMute from ServerToolsConfig.xml, will now need to set the permission level in the serveradmin.xml (example: <permission cmd="mute" permission_level="0" />)
+Fixed an error that would happen if a player removed a clan
+Motd now displays every time a player spawns not just on join
+NOTE: you will need to delete servertools.bin or errors will appear in the log
+
+v3.10
+Updated gimme to a16.2
+
+v3.9
+Fixed Reserved slots command not working
+
+v3.8
+Added AdminLevelNeeded For AdminNameColoring (check ServerToolsConfig.xml)
+Added Moderator name coloring
+Added param cancel to stopserver command. Usage: stopserver cancel
+Changed clanmanger to return the chat message if the clanmanager is not enabled.
+Updated /Day7 to a16 zombies and animals
+Updated InvalidItems to a16 blocks
+Fixed /clanadd players can no longer add blank clan names
+Fixed /re not sending reply messages to the players that pm'd
+
+v3.7
+Added Reserved Slot console command
+Fixed /sethome no longer spawns player at the highest point
+Fixed /home still not saving players positions after server reboots
+Changed Reserved slots will now observe expired date/time in reservedslots.xml
+Changed Removed chat command /delhome, players can now just set a new home
+Changed Moved Gimme, Killme, Clan and Sethome data to a binary file
+Changed Added a usage response for /clan commands if no params were given
+
+v3.6
+Added console command stopserver. Will stop the game server with a chat warning countdown every minute. Usage: stopserver <minutes>
+Added console command entityremove. Will remove a entity from the game. Usage: entityremove <entityId>
+Added console command resetplayer. Will reset a players profile. If player is connected it will auto kick the player first. Usage: rp <steamId> or resetplayer <steamId>
+Fixed if a player uses /sethome and then the server gets rebooted before the player uses their /home, that home data is ignored since it doesn't have a last used time stamp
+
+v3.5
+Added admin prefixes and name coloring
+Changed /day7 If the day is the 7th day it will respond that today is the 7th day instead of 7 days from that day
+Fixed /clancommands not working still
+Fixed default gimme item goldenrod not dropping goldenrodPlant
+Fixed Motd adding player name when {PlayerName} was not used
+Fixed reserved slots not working proper
+Updated invalid items list
+
+v3.4
+Fixed /clancommands not showing the clan commands
+Fixed ServerToolsPhrases.xml not creating on fresh installs
+
+v3.3
+Added Reserved Slots to the mod. Will kick the player with the least amount of crafted items.
+Added Watchlist to the mod. Will alert online admins when the watchlisted player is online. 
+(Console Commads Usage: watchlist add <steamID> <reason>, watchlist remove <steamID>, watchlist list)
+Fixed Motd not showing the correct player name
+Updated invalid items list (NOTE: will need to delete InvalidItems.xml if you want the updated list if items)
+Changed ServerToolsConfig.xml & ServerToolsPhrases.xml will now update themselves if needed. No need to delete them anymore.
+Updated day7 to include a15 zombies
+
+v3.2
+Fixed /sethome was not in the ServerToolsConfig.xml (Note: will need to delete ServerToolsConfig.xml)
+
+V3.1
+Fixed Custom cammands no longer crash the server
+Fixed /mute, was not muting players
+Fixed /sethome not saving data correct
+Fixed /day7 no longer requires custom commands to be enabled to work
+
+v3.0
+Updated to a14.6
+Changed Commands /info and /help have been moved to CustomChatCommands.xml and are not hard coded anymore.
+Changed CustomCommands now has DelayBetweenUses added to the config but not working yet
+Changed Moved motd message from InfoTicker.xml to server tools config
+Changed Motd can now contain the players name using the variable {PlayerName}
+Changed added chickens and screamer counts to /day7
+Changed Infoticker will now post any message with the same id at the same time
+Changed BadWordFilter now checks all words before returning the string
+Change annouce invalid item stacks will now enter a log entry into chat logs.
+Fixed Using /home will always spawn you at the highest point. thanks schwanz9000
+Fixed Anounce invalid item stack numbers not working unless invalid item kicker was enabled
+Added Chat flood protection. Will block anything with more then 500 characters
+
+v2.2
+Updated for a13
+
+v2.1
+Added /clancommands to /help so players can see what commands are available to them
+Added /clanleave so players can leave the clan
+Added chat command /pm or /w for players to pm other players usage: /w <playername> <message> or /pm <playername> <message>
+Added clan tag strings and admin chat command strings to the phrases xml (Must delete the xml.)
+Changed /day7 Animal counts are now correct and added more infos to the output
+Fixed xml error in clansdata.xml
+Cleaned up the phrases xml (Must delete the xml.)
+Clan members can be removed while offline using a steamid
+Removed a unused string from InvalidItems
+
+v2.0
+Added Clan tag protection
+Added Admin chat commands /mute /unmute @admins @all
+Added AlwaysShowResponse to the config for /gimme
+Changed day7 to not show the animal count at the moment
+Fixed a log error
+Fixed phrases not writing the id correctly
+
+v1.4
+Fixed Infoticker sending messages when there were none saved
+Fixed /home not observing DelayBetweenSetHomeUses time
+Fixed /home /gimme /killme error "key already present in dictionary" if DelayBetweenUses was set to 0
+Fixed parts of the mod loading more then once
+Fixed could not use /gimme /killme more then once if DelayBetweenUses was set to 0
+
+v1.3
+Fixed could not use /home more then once if DelayBetweenSetHomeUses was set to 0
+
+v1.2
+Fixed Object reference not set to an instance of an object
+
+v1.1
+Fixed Motd not loading
+Fixed invalid items not loading if the mod was not enabled at server start and there was no config present
+Fixed updating saved phrases
+Removed my admin hammer from the default invalid items list lol
+
+v1.0
+Initial release 
