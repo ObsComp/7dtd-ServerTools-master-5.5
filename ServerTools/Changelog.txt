@@ -6,6 +6,10 @@ Redo donator chat color system to allow them to not be on the admin list...
 Look into block processing to reduce lag...
 Email specific alerts to listed addresses...
 
+v.5.51
+Fixed Admin Chat Color bug - Colors will now show properly
+Fixed Player Stat Check bug - Player skill points available did not add the skill points available from beginner quests and challenges, leading to false positives.
+
 v.5.5
 Changed Flight Check detection system to avoid false positives
 Removed teleport to surface in anticheat system for players unless detected while moving

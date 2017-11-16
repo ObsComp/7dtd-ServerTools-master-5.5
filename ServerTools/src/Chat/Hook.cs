@@ -76,7 +76,23 @@ namespace ServerTools
                     }
                 }
                 Player _p = PersistentContainer.Instance.Players[_cInfo.playerId, false];
-                if (AdminNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId) & _p.AdminChatColor && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId))
+                if (AdminNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId) & _p.AdminChatColor)
+                {
+                    AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
+                    if (Admin.PermissionLevel <= AdminLevel)
+                    {
+                        _playerName = string.Format("{0}{1} {2}[-]", AdminColor, AdminPrefix, _playerName);
+                        GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
+                        return false;
+                    }
+                    if (Admin.PermissionLevel > AdminLevel & Admin.PermissionLevel <= ModLevel)
+                    {
+                        _playerName = string.Format("{0}{1} {2}[-]", ModColor, ModPrefix, _playerName);
+                        GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
+                        return false;
+                    }
+                }
+                if (AdminNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId))
                 {
                     AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
                     if (Admin.PermissionLevel <= AdminLevel)

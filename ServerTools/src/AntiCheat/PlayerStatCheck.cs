@@ -41,7 +41,7 @@ namespace ServerTools
                                         var p_Level = ent.Level;
                                         var p_SkillPoints = ent.SkillPoints;
                                         var p_height = ent.height;
-                                        var maxPts = (p_Level * pointsPer);
+                                        var maxPts = (p_Level * pointsPer + 42);
 
                                         if (p_Health > 250)
                                         {
