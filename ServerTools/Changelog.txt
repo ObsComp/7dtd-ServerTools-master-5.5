@@ -6,6 +6,11 @@ Redo donator chat color system to allow them to not be on the admin list...
 Look into block processing to reduce lag...
 Email specific alerts to listed addresses...
 
+v.5.52
+Fixed Admin Chat Color off/on through console
+Added anti stuck teleport for players flagged as stuck underground by the Entity Underground Check. The player function is experimental. Turn off EUC if you have troubles and report any bugs
+Adjusted result of command restart check in console and /restart in chat. It will now read # H : # M
+
 v.5.51
 Fixed Admin Chat Color bug - Colors will now show properly
 Fixed Player Stat Check bug - Player skill points available did not add the skill points available from beginner quests and challenges, leading to false positives.

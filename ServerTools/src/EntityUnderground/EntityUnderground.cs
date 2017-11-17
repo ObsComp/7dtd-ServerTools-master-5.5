@@ -86,13 +86,19 @@ namespace ServerTools
                                 var y = (int)ent.position.y;
                                 var z = (int)ent.position.z;
 
-                                List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
+                                
                                 int _flag = 0;
                                 if (Flag.TryGetValue(ent.entityId, out _flag))
                                 {
                                     {
                                         Flag.Remove(ent.entityId);
                                         Flag.Add(ent.entityId, _flag + 1);
+                                    }
+                                    List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
+                                    if (_flag > 1)
+                                    {
+                                        ClientInfo _cInfo = _cInfoList.RandomObject();
+                                        SdtdConsole.Instance.ExecuteSync(string.Format("telee {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
                                     }
                                     if (_flag > 9)
                                     {
@@ -110,8 +116,6 @@ namespace ServerTools
                                         }
                                         Flag.Remove(ent.entityId);
                                     }
-                                    ClientInfo _cInfo = _cInfoList.RandomObject();
-                                    SdtdConsole.Instance.ExecuteSync(string.Format("telee {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
                                 }
                             }
                         }
@@ -122,6 +126,45 @@ namespace ServerTools
                                 Flag.Remove(ent.entityId);
                             }
                         }
+                    }
+                    if (ent.IsClientControlled())
+                    {
+                        if (ent.IsStuck)
+                        {
+                            if (!Flag.ContainsKey(ent.entityId))
+                            {
+                                Flag.Add(ent.entityId, 1);
+                            }
+                            else
+                            {
+                                var x = (int)ent.position.x;
+                                var y = (int)ent.position.y;
+                                var z = (int)ent.position.z;
+
+                                int _flag = 0;
+                                if (Flag.TryGetValue(ent.entityId, out _flag))
+                                {
+                                    {
+                                        Flag.Remove(ent.entityId);
+                                        Flag.Add(ent.entityId, _flag + 1);
+                                    }
+                                    if (_flag > 2)
+                                    {
+                                        Log.Out("Detected player was stuck underground and teleported them to the surface. Id # {0}, position {1} {2} {3}", ent.entityId, x, y, z);
+                                        List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
+                                        ClientInfo _cInfo = _cInfoList.RandomObject();
+                                        SdtdConsole.Instance.ExecuteSync(string.Format("tele {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
+                                        GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId);
+                                        AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
+                                        if (Admin.PermissionLevel <= AdminLevel)
+                                        {
+                                            SdtdConsole.Instance.ExecuteSync(string.Format("pm {0} \"Detected player # {1} stuck underground @ {2} {3} {4}. Teleported them to the surface.\"", _cInfo.playerId, ent.entityId, x, y, z), _cInfo);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        Flag.Remove(ent.entityId);
                     }
                 }
             }

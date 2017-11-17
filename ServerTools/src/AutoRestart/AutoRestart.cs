@@ -66,7 +66,7 @@ namespace ServerTools
                 int _timeMinutes = (int)fractionalMinutes;
                 int _timeleftMinutes = DelayBetweenRestarts - _timeMinutes;
                 string TimeLeft;
-                TimeLeft = string.Format("{0:00} H :{1:00} M", _timeleftMinutes / 60, _timeleftMinutes % 60);
+                TimeLeft = string.Format("{0:00} H : {1:00} M", _timeleftMinutes / 60, _timeleftMinutes % 60);
                 if (_announce)
                 {
                     GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, string.Format("{0}The next auto restart is in [FF8000]{1}[-]", CustomCommands.ChatColor, TimeLeft), "Server", false, "", false);
