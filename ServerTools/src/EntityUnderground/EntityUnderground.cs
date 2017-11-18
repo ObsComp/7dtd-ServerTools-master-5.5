@@ -67,104 +67,107 @@ namespace ServerTools
         {
             if (IsEnabled)
             {
-                World world = GameManager.Instance.World;
-                var enumerator1 = world.Entities.list;
-                foreach (var ent in enumerator1)
+                if (ConnectionManager.Instance.ClientCount() > 0)
                 {
-                    if (!ent.IsClientControlled())
+                    World world = GameManager.Instance.World;
+                    var enumerator1 = world.Entities.list;
+                    foreach (var ent in enumerator1)
                     {
-                        var entityInGround = getEntityUnderground(ent);
-                        if (entityInGround == true)
+                        if (!ent.IsClientControlled())
                         {
-                            if (!Flag.ContainsKey(ent.entityId))
+                            var entityInGround = getEntityUnderground(ent);
+                            if (entityInGround == true)
                             {
-                                Flag.Add(ent.entityId, 1);
-                            }
-                            else
-                            {
-                                var x = (int)ent.position.x;
-                                var y = (int)ent.position.y;
-                                var z = (int)ent.position.z;
-
-                                
-                                int _flag = 0;
-                                if (Flag.TryGetValue(ent.entityId, out _flag))
+                                if (!Flag.ContainsKey(ent.entityId))
                                 {
+                                    Flag.Add(ent.entityId, 1);
+                                }
+                                else
+                                {
+                                    var x = (int)ent.position.x;
+                                    var y = (int)ent.position.y;
+                                    var z = (int)ent.position.z;
+
+
+                                    int _flag = 0;
+                                    if (Flag.TryGetValue(ent.entityId, out _flag))
                                     {
-                                        Flag.Remove(ent.entityId);
-                                        Flag.Add(ent.entityId, _flag + 1);
-                                    }
-                                    List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
-                                    if (_flag > 1)
-                                    {
-                                        ClientInfo _cInfo = _cInfoList.RandomObject();
-                                        SdtdConsole.Instance.ExecuteSync(string.Format("telee {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
-                                    }
-                                    if (_flag > 9)
-                                    {
-                                        if (AlertAdmin)
                                         {
-                                            foreach (var _cInfo2 in _cInfoList)
+                                            Flag.Remove(ent.entityId);
+                                            Flag.Add(ent.entityId, _flag + 1);
+                                        }
+                                        List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
+                                        if (_flag > 1)
+                                        {
+                                            ClientInfo _cInfo = _cInfoList.RandomObject();
+                                            SdtdConsole.Instance.ExecuteSync(string.Format("telee {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
+                                        }
+                                        if (_flag > 9)
+                                        {
+                                            if (AlertAdmin)
                                             {
-                                                GameManager.Instance.adminTools.IsAdmin(_cInfo2.playerId);
-                                                AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo2.playerId);
-                                                if (Admin.PermissionLevel <= AdminLevel)
+                                                foreach (var _cInfo2 in _cInfoList)
                                                 {
-                                                    SdtdConsole.Instance.ExecuteSync(string.Format("pm {0} \"Detected entity # {1} underground @ {2} {3} {4}\"", _cInfo2.playerId, ent.entityId, x, y, z), _cInfo2);
+                                                    GameManager.Instance.adminTools.IsAdmin(_cInfo2.playerId);
+                                                    AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo2.playerId);
+                                                    if (Admin.PermissionLevel <= AdminLevel)
+                                                    {
+                                                        SdtdConsole.Instance.ExecuteSync(string.Format("pm {0} \"Detected entity # {1} underground @ {2} {3} {4}\"", _cInfo2.playerId, ent.entityId, x, y, z), _cInfo2);
+                                                    }
                                                 }
                                             }
+                                            Flag.Remove(ent.entityId);
                                         }
-                                        Flag.Remove(ent.entityId);
                                     }
                                 }
-                            }
-                        }
-                        else
-                        {
-                            if (Flag.ContainsKey(ent.entityId))
-                            {
-                                Flag.Remove(ent.entityId);
-                            }
-                        }
-                    }
-                    if (ent.IsClientControlled())
-                    {
-                        if (ent.IsStuck)
-                        {
-                            if (!Flag.ContainsKey(ent.entityId))
-                            {
-                                Flag.Add(ent.entityId, 1);
                             }
                             else
                             {
-                                var x = (int)ent.position.x;
-                                var y = (int)ent.position.y;
-                                var z = (int)ent.position.z;
-
-                                int _flag = 0;
-                                if (Flag.TryGetValue(ent.entityId, out _flag))
+                                if (Flag.ContainsKey(ent.entityId))
                                 {
+                                    Flag.Remove(ent.entityId);
+                                }
+                            }
+                        }
+                        if (ent.IsClientControlled())
+                        {
+                            if (ent.IsStuck)
+                            {
+                                if (!Flag.ContainsKey(ent.entityId))
+                                {
+                                    Flag.Add(ent.entityId, 1);
+                                }
+                                else
+                                {
+                                    var x = (int)ent.position.x;
+                                    var y = (int)ent.position.y;
+                                    var z = (int)ent.position.z;
+
+                                    int _flag = 0;
+                                    if (Flag.TryGetValue(ent.entityId, out _flag))
                                     {
-                                        Flag.Remove(ent.entityId);
-                                        Flag.Add(ent.entityId, _flag + 1);
-                                    }
-                                    if (_flag > 2)
-                                    {
-                                        Log.Out("Detected player was stuck underground and teleported them to the surface. Id # {0}, position {1} {2} {3}", ent.entityId, x, y, z);
-                                        List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
-                                        ClientInfo _cInfo = _cInfoList.RandomObject();
-                                        SdtdConsole.Instance.ExecuteSync(string.Format("tele {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
-                                        GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId);
-                                        AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
-                                        if (Admin.PermissionLevel <= AdminLevel)
                                         {
-                                            SdtdConsole.Instance.ExecuteSync(string.Format("pm {0} \"Detected player # {1} stuck underground @ {2} {3} {4}. Teleported them to the surface.\"", _cInfo.playerId, ent.entityId, x, y, z), _cInfo);
+                                            Flag.Remove(ent.entityId);
+                                            Flag.Add(ent.entityId, _flag + 1);
+                                        }
+                                        if (_flag > 2)
+                                        {
+                                            Log.Out("Detected player was stuck underground and teleported them to the surface. Id # {0}, position {1} {2} {3}", ent.entityId, x, y, z);
+                                            List<ClientInfo> _cInfoList = ConnectionManager.Instance.GetClients();
+                                            ClientInfo _cInfo = _cInfoList.RandomObject();
+                                            SdtdConsole.Instance.ExecuteSync(string.Format("tele {0} {1} -1 {2}", ent.entityId, x, z), _cInfo);
+                                            GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId);
+                                            AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
+                                            if (Admin.PermissionLevel <= AdminLevel)
+                                            {
+                                                SdtdConsole.Instance.ExecuteSync(string.Format("pm {0} \"Detected player # {1} stuck underground @ {2} {3} {4}. Teleported them to the surface.\"", _cInfo.playerId, ent.entityId, x, y, z), _cInfo);
+                                            }
                                         }
                                     }
                                 }
                             }
+                            Flag.Remove(ent.entityId);
                         }
-                        Flag.Remove(ent.entityId);
                     }
                 }
             }

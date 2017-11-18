@@ -6,9 +6,12 @@ Redo donator chat color system to allow them to not be on the admin list...
 Look into block processing to reduce lag...
 Email specific alerts to listed addresses...
 
+v.5.53
+InfoTicker can be set to random, default is now sequencial. Random is improved from prior. Goes through the entire list before repeating the same message. Random option added to servertools config
+
 v.5.52
 Fixed Admin Chat Color off/on through console
-Added anti stuck teleport for players flagged as stuck underground by the Entity Underground Check. The player function is experimental. Turn off EUC if you have troubles and report any bugs
+Added anti stuck teleport for players flagged as stuck underground by the Entity Underground Check. The player stuck function is experimental. Turn off EUC if you have troubles and report any bugs
 Adjusted result of command restart check in console and /restart in chat. It will now read # H : # M
 
 v.5.51
