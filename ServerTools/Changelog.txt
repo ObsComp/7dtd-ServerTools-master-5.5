@@ -7,7 +7,7 @@ Look into block processing to reduce lag...
 Email specific alerts to listed addresses...
 
 v.5.53
-InfoTicker can be set to random, default is now sequencial. Random is improved from prior. Goes through the entire list before repeating the same message. Random option added to servertools config
+InfoTicker can be set to random, default is now sequential. Random is improved from prior. Goes through the entire list before repeating the same message. Random option added to servertools config
 
 v.5.52
 Fixed Admin Chat Color off/on through console
