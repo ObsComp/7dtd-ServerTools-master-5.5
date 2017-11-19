@@ -6,6 +6,10 @@ Redo donator chat color system to allow them to not be on the admin list...
 Look into block processing to reduce lag...
 Email specific alerts to listed addresses...
 
+v.5.54
+Changed Admin Chat Color off to be only temporary. Server restarts will reset this status. This was creating a bug to disallow some admins or mods to see their chat color
+Next version will correct this feature to be permanent but requires a new file be created. That will be the final version before 5.6 is released
+
 v.5.53
 InfoTicker can be set to random, default is now sequential. Random is improved from prior. Goes through the entire list before repeating the same message. Random option added to servertools config
 
@@ -16,7 +20,7 @@ Adjusted result of command restart check in console and /restart in chat. It wil
 
 v.5.51
 Fixed Admin Chat Color bug - Colors will now show properly
-Fixed Player Stat Check bug - Player skill points available did not add the skill points available from beginner quests and challenges, leading to false positives.
+Fixed Player Stat Check bug - Player skill points available did not add the skill points available from beginner quests and challenges, leading to false positives
 
 v.5.5
 Changed Flight Check detection system to avoid false positives

@@ -5,6 +5,8 @@ namespace ServerTools
 {
     class AdminChatColor : ConsoleCmdAbstract
     {
+        public static List<string> AdminColorOff = new List<string>();
+
         public override string GetDescription()
         {
             return "Turn your admin chat color and prefix off or on.";
@@ -43,9 +45,8 @@ namespace ServerTools
                     else
                     {
                         var _id = _senderInfo.RemoteClientInfo;
+                        AdminColorOff.Add(_id.playerId);
                         SdtdConsole.Instance.Output(string.Format("Set admin chat color off for you {0}.", _id.playerName));
-                        PersistentContainer.Instance.Players[_id.playerId, false].AdminChatColor = false;
-                        PersistentContainer.Instance.Save();
                     }
                 }
                 else if (_params[0].ToLower().Equals("on"))
@@ -58,9 +59,8 @@ namespace ServerTools
                     else
                     {
                         var _id = _senderInfo.RemoteClientInfo;
+                        AdminColorOff.Remove(_id.playerId);
                         SdtdConsole.Instance.Output(string.Format("Set admin chat color on for you {0}.", _id.playerName));
-                        PersistentContainer.Instance.Players[_id.playerId, true].AdminChatColor = true;
-                        PersistentContainer.Instance.Save();
                     }
                 }
                 else

@@ -32,8 +32,9 @@ namespace ServerTools
         public static string commandPrivate = "/";
         public static bool ChatCommandPublicEnabled = false;
         public static string commandPublic = "!";
+        private static string filepath = string.Format("{0}/ServerTools.bin", GameUtils.GetSaveGameDir());
         private static SortedDictionary<string, DateTime> Dict = new SortedDictionary<string, DateTime>();
-        private static SortedDictionary<string, string> Dict1 = new SortedDictionary<string, string>();
+        private static SortedDictionary<string, string> Dict1 = new SortedDictionary<string, string>(); 
         public static List<string> SpecialPlayers = new List<string>();
         private static List<string> SpecialPlayersColorOff = new List<string>();
 
@@ -75,42 +76,21 @@ namespace ServerTools
                         return false;
                     }
                 }
-                Player _p = PersistentContainer.Instance.Players[_cInfo.playerId, false];
-                if (AdminNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId))
+                if (AdminNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId) & !AdminChatColor.AdminColorOff.Contains(_cInfo.playerId))
                 {
-                    if (_p.AdminChatColor == true)
+                    AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
+                    if (Admin.PermissionLevel <= AdminLevel)
                     {
-                        AdminToolsClientInfo Admin = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
-                        if (Admin.PermissionLevel <= AdminLevel)
-                        {
-                            _playerName = string.Format("{0}{1} {2}[-]", AdminColor, AdminPrefix, _playerName);
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
-                            return false;
-                        }
-                        if (Admin.PermissionLevel > AdminLevel & Admin.PermissionLevel <= ModLevel)
-                        {
-                            _playerName = string.Format("{0}{1} {2}[-]", ModColor, ModPrefix, _playerName);
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
-                            return false;
-                        }
+                        _playerName = string.Format("{0}{1} {2}[-]", AdminColor, AdminPrefix, _playerName);
+                        GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
+                        return false;
                     }
-                    if (!_p.AdminChatColor)
+                    if (Admin.PermissionLevel > AdminLevel & Admin.PermissionLevel <= ModLevel)
                     {
-                        return true;
+                        _playerName = string.Format("{0}{1} {2}[-]", ModColor, ModPrefix, _playerName);
+                        GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
+                        return false;
                     }
-                        AdminToolsClientInfo Admin2 = GameManager.Instance.adminTools.GetAdminToolsClientInfo(_cInfo.playerId);
-                        if (Admin2.PermissionLevel <= AdminLevel)
-                        {
-                            _playerName = string.Format("{0}{1} {2}[-]", AdminColor, AdminPrefix, _playerName);
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
-                            return false;
-                        }
-                        if (Admin2.PermissionLevel > AdminLevel & Admin2.PermissionLevel <= ModLevel)
-                        {
-                            _playerName = string.Format("{0}{1} {2}[-]", ModColor, ModPrefix, _playerName);
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, _message, _playerName, false, "ServerTools1", false);
-                            return false;
-                        }
                 }
                 if (DonatorNameColoring && !_message.StartsWith(commandPrivate) && !_message.StartsWith("@") && _secondaryName != "ServerTools1" && GameManager.Instance.adminTools.IsAdmin(_cInfo.playerId))
                 {
@@ -691,14 +671,9 @@ namespace ServerTools
                                 }
                             }
                         }
-                        if (ReservedCheck && !ReservedSlots.Dict.ContainsKey(_cInfo.playerId) && !ReservedSlots.IsEnabled)
+                        if (ReservedCheck && !ReservedSlots.Dict.ContainsKey(_cInfo.playerId))
                         {
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, string.Format("{0}You have not donated {1}, and the command is off.[-]", CustomCommands.ChatColor, _playerName), _playerName, false, "ServerTools", true);
-                            return true;
-                        }
-                        if (ReservedCheck && ReservedSlots.Dict.ContainsKey(_cInfo.playerId) && !ReservedSlots.IsEnabled)
-                        {
-                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, string.Format("{0}You have donated {1}, but the command is off.[-]", CustomCommands.ChatColor, _playerName), _playerName, false, "ServerTools", true);
+                            GameManager.Instance.GameMessageServer(_cInfo, EnumGameMessages.Chat, string.Format("{0}You have not donated {1}. Expiration date unavailable.[-]", CustomCommands.ChatColor, _playerName), _playerName, false, "ServerTools", true);
                             return true;
                         }
                         return true;
