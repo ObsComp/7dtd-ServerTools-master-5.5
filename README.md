@@ -1,3 +1,7 @@
+# Project Merger
+This version of ServerTools is the last before it was merged with the original author.<br>
+You can find new updates beyond 5.5 at this link https://github.com/dmustanger/7dtd-ServerTools/releases.<br>
+
 # 7dtd-ServerTools
 Server tools for 7 days to die dedicated servers<br>
 
